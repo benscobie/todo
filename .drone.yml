@@ -3,59 +3,9 @@ type: docker
 name: default
 
 steps:
-- name: restore-dep-cache
-  image: plugins/s3-cache
-  settings:
-    pull: true
-    endpoint:
-      from_secret: s3_npm_cache_endpoint
-    root:
-      from_secret: s3_npm_cache_bucket_name
-    access_key: 
-      from_secret: s3_npm_cache_access_key
-    secret_key: 
-      from_secret: s3_npm_cache_secret_key
-    restore: true
-    workdir: src/Frontend
-
 - name: ui
   image: node:lts-alpine
   commands:
     - cd src/Frontend/
     - npm install
     - npm run build
-
-- name: rebuild-dep-cache
-  image: plugins/s3-cache
-  settings:
-    pull: true
-    endpoint:
-      from_secret: s3_npm_cache_endpoint
-    root:
-      from_secret: s3_npm_cache_bucket_name
-    access_key: 
-      from_secret: s3_npm_cache_access_key
-    secret_key: 
-      from_secret: s3_npm_cache_secret_key
-    rebuild: true
-    mount:
-      - src/Frontend/node_modules
-    when:
-      event: push
-
-- name: flush-dep-cache
-  image: plugins/s3-cache:1
-  settings:
-    pull: true
-    endpoint:
-      from_secret: s3_npm_cache_endpoint
-    root:
-      from_secret: s3_npm_cache_bucket_name
-    access_key: 
-      from_secret: s3_npm_cache_access_key
-    secret_key: 
-      from_secret: s3_npm_cache_secret_key
-    flush: true
-    flush_age: 14
-    when:
-      event: push
