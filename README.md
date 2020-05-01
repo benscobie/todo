@@ -7,3 +7,5 @@ The aim of this repistory is to provide:
 - Utilisation of Terraform to build environments
 - Utilisation of Drone CI for CI/CD
 - Utilisation of Terraform and Drone CI to create ephemeral environments for feature branches
+
+[![Build Status](https://drone.benscobie.com/api/badges/benscobie/todo/status.svg)](https://drone.benscobie.com/benscobie/todo)
